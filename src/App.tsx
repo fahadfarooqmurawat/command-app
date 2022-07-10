@@ -40,7 +40,15 @@ export const App = () => {
     );
   }, [searchText, allCommands]);
 
+  const getAllCommands = async () => {
+    const result = await apiService.getCommands({ userId });
+
+    setAllCommands(result);
+  };
+
   const editCommand = (command: Command) => {
+    console.log("OPEN MODAL");
+    console.log(command);
     setCommandToEdit(command);
     setIsEditModalOpen(true);
   };
@@ -50,22 +58,24 @@ export const App = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const saveCommand = (newCommand: NewCommand) => {
-    const result = apiService.addCommand({ userId, newCommand });
+  const saveCommand = async (newCommand: NewCommand) => {
+    const result = await apiService.addCommand({ userId, newCommand });
 
     setIsAddModalOpen(false);
     setAllCommands(result);
   };
 
-  const updateCommand = (updatedCommand: Command) => {
-    const result = apiService.updateCommand({ userId, updatedCommand });
+  const updateCommand = async (updatedCommand: Command) => {
+    console.log("TEST");
+    console.log(updatedCommand);
+    const result = await apiService.updateCommand({ userId, updatedCommand });
 
     setIsEditModalOpen(false);
     setAllCommands(result);
   };
 
-  const deleteCommandConfirm = (commandId: string) => {
-    const result = apiService.deleteCommand({ userId, commandId });
+  const deleteCommandConfirm = async (commandId: number) => {
+    const result = await apiService.deleteCommand({ userId, commandId });
 
     setIsDeleteModalOpen(false);
     setAllCommands(result);
@@ -86,8 +96,7 @@ export const App = () => {
 
   useEffect(() => {
     if (!allCommands) {
-      const result = apiService.getCommands({ userId });
-      setAllCommands(result);
+      getAllCommands();
     }
   }, []);
 
@@ -120,9 +129,15 @@ export const App = () => {
       {commandToEdit && (
         <UpdateCommandModal
           command={commandToEdit}
-          closeModal={() => setIsEditModalOpen(false)}
+          closeModal={() => {
+            setIsEditModalOpen(false);
+            setCommandToEdit(null);
+          }}
           isOpen={isEditModalOpen}
-          updateCommand={updateCommand}
+          updateCommand={(updatedCommand: Command) => {
+            updateCommand(updatedCommand);
+            setCommandToEdit(null);
+          }}
         />
       )}
       {commandToDelete && (

@@ -13,20 +13,15 @@ type Props = {
   updateCommand: (command: Command) => void;
 };
 
-const emptyUpdatedCommand = {
-  id: "",
-  command: "",
-  description: "",
-};
-
-export const UpdateCommandModal = ({ command, isOpen, closeModal, updateCommand }: Props) => {
+export const UpdateCommandModal = ({
+  command,
+  isOpen,
+  closeModal,
+  updateCommand,
+}: Props) => {
   const [updatedCommand, setUpdatedCommand] = useState<Command>(command);
 
   const commandTextBoxRef = useRef<HTMLInputElement>(null);
-
-  const onAfterClose = () => {
-    setUpdatedCommand(emptyUpdatedCommand);
-  };
 
   const onAfterOpen = () => {
     commandTextBoxRef.current?.focus();
@@ -56,7 +51,6 @@ export const UpdateCommandModal = ({ command, isOpen, closeModal, updateCommand 
       closeTimeoutMS={100}
       contentLabel={"Update Command Modal"}
       isOpen={isOpen}
-      onAfterClose={onAfterClose}
       onAfterOpen={onAfterOpen}
       onRequestClose={onRequestClose}
       role={"dialog"}

@@ -5,10 +5,10 @@ import { ActionButton } from "../../buttons/action-button/action-button";
 import { VerticalSpacer } from "../../vertical-spacer/vertical-spacer";
 
 type Props = {
-  commandId: string;
+  commandId: number;
   isOpen: boolean;
   closeModal: () => void;
-  deleteCommand: (commandId: string) => void;
+  deleteCommand: (commandId: number) => void;
 };
 
 export const DeleteCommandModal = ({

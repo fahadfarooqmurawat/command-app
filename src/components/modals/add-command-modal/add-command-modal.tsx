@@ -45,14 +45,14 @@ export const AddCommandModal = ({ isOpen, closeModal, saveCommand }: Props) => {
 
       if (e.key === "Enter") {
         e.preventDefault();
-        closeModal();
+        saveCommand(newCommand);
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [closeModal, isOpen]);
+  }, [closeModal, isOpen, newCommand]);
 
   return (
     <ReactModal

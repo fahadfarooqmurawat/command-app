@@ -1,5 +1,5 @@
 export type Command = {
-  id: string;
+  id: number;
   command: string;
   description: string;
 };

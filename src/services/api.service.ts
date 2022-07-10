@@ -1,108 +1,62 @@
+import axios from "axios";
 import { Command } from "../@types/command.type";
 import { NewCommand } from "../@types/new-command.type";
 
-const commands: Command[] = [
-  {
-    id: "1",
-    command: "npx create-react-app 1",
-    description: "create react app",
-  },
-  {
-    id: "2",
-    command: "npx create-react-app 2",
-    description: "create react app",
-  },
-  {
-    id: "3",
-    command: "npx create-react-app 3",
-    description: "create react app",
-  },
-  {
-    id: "4",
-    command: "npx create-react-app 4",
-    description: "create react app",
-  },
-  {
-    id: "5",
-    command: "git status",
-    description: "check git status",
-  },
-  {
-    id: "6",
-    command: "npx create-react-app 1",
-    description: "create react app",
-  },
-  {
-    id: "7",
-    command: "npx create-react-app 2",
-    description: "create react app",
-  },
-  {
-    id: "8",
-    command: "npx create-react-app 3",
-    description: "create react app",
-  },
-  {
-    id: "9",
-    command: "npx create-react-app 4",
-    description: "create react app",
-  },
-  {
-    id: "10",
-    command: "git status",
-    description: "check git status",
-  },
-];
+const getCommands = async ({ userId }: { userId: string }): Promise<any> => {
+  const result = await axios({
+    method: "GET",
+    url: "http://localhost:3030/command",
+  });
 
-const getCommands = ({ userId }: { userId: string }) => {
-  return commands;
+  return result.data;
 };
 
-const addCommand = ({
+const addCommand = async ({
   userId,
   newCommand,
 }: {
   userId: string;
   newCommand: NewCommand;
 }) => {
-  const newCommandId = (
-    parseInt(commands[commands.length - 1].id) + 1
-  ).toString();
-  commands.push({ id: newCommandId, ...newCommand });
+  const result = await axios({
+    method: "POST",
+    url: "http://localhost:3030/command",
+    data: { newCommand },
+  });
 
-  return commands;
+  return result.data;
 };
 
-const updateCommand = ({
+const updateCommand = async ({
   userId,
   updatedCommand,
 }: {
   userId: string;
   updatedCommand: Command;
 }) => {
-  const index = commands.findIndex((value) => {
-    return value.id === updatedCommand.id;
+  const result = await axios({
+    method: "PATCH",
+    url: "http://localhost:3030/command",
+    data: { updatedCommand },
   });
 
-  commands.splice(index, 1, updatedCommand);
-
-  return commands;
+  return result.data;
 };
 
-const deleteCommand = ({
+const deleteCommand = async ({
   userId,
   commandId,
 }: {
   userId: string;
-  commandId: string;
+  commandId: number;
 }) => {
-  const index = commands.findIndex((value) => {
-    return value.id === commandId;
+  const result = await axios({
+    method: "DELETE",
+    url: "http://localhost:3030/command",
+    data: { commandId },
   });
 
-  commands.splice(index, 1);
-
-  return commands;
+  return result.data;
 };
 
 export const apiService = {
