@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { ButtonType } from "../../../@types/button-type.type";
+
+import { ButtonType } from "../@types/button-type.type";
 
 type Props = {
   label: string;
   buttonType: ButtonType;
-  clickHandler: () => void;
+  clickHandler: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 export const ActionButton = ({ label, buttonType, clickHandler }: Props) => {

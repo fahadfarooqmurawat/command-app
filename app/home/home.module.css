@@ -1,7 +1,7 @@
-.container {
-  background-color: #2cb1bc;
+.main {
+  background-color: #BCCCDC;
   height: 100vh;
-  min-width: 100vw;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;

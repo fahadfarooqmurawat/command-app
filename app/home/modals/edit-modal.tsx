@@ -1,34 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { NewCommand } from "../../../@types/new-command.type";
-import { ActionButton } from "../../buttons/action-button/action-button";
-import { CommandFormElements } from "../../command-form-elements/command-form-elements";
+import { Command } from "../../@types/command.type";
+import { appStore } from "@/app/stores/app.store";
 
-type Props = {
-  isOpen: boolean;
-  closeModal: () => void;
-  saveCommand: (command: NewCommand) => void;
-};
+export const EditModal = () => {
+  const [isOpen, selectedCommand] = appStore((state) => [
+    state.editModal,
+    state.selectedCommand,
+  ]);
+  const closeModal = appStore.getState().hideEditModal;
 
-const emptyNewCommand = {
-  command: "",
-  description: "",
-};
-
-export const AddCommandModal = ({ isOpen, closeModal, saveCommand }: Props) => {
-  const [newCommand, setNewCommand] = useState<NewCommand>(emptyNewCommand);
+  const [updatedCommand, setUpdatedCommand] = useState<Command>(command);
 
   const commandTextBoxRef = useRef<HTMLInputElement>(null);
-
-  const clearCommand = () => {
-    setNewCommand(emptyNewCommand);
-    commandTextBoxRef.current?.focus();
-  };
-
-  const onAfterClose = () => {
-    setNewCommand(emptyNewCommand);
-  };
 
   const onAfterOpen = () => {
     commandTextBoxRef.current?.focus();
@@ -44,21 +29,20 @@ export const AddCommandModal = ({ isOpen, closeModal, saveCommand }: Props) => {
 
       if (e.key === "Enter") {
         e.preventDefault();
-        saveCommand(newCommand);
+        closeModal();
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [closeModal, isOpen, newCommand]);
+  }, [closeModal, isOpen]);
 
   return (
     <ReactModal
       closeTimeoutMS={100}
-      contentLabel={"Add Command Modal"}
+      contentLabel={"Update Command Modal"}
       isOpen={isOpen}
-      onAfterClose={onAfterClose}
       onAfterOpen={onAfterOpen}
       onRequestClose={onRequestClose}
       role={"dialog"}
@@ -72,13 +56,12 @@ export const AddCommandModal = ({ isOpen, closeModal, saveCommand }: Props) => {
         content: { inset: "unset" },
       }}
     >
-      <Title>Add New Command</Title>
+      <Title>Update Command</Title>
       <CommandFormElements
-        command={newCommand}
-        setCommand={setNewCommand}
+        command={updatedCommand}
+        setCommand={setUpdatedCommand}
         ref={commandTextBoxRef}
       />
-      {/* <VerticalSpacer space={"20px"} /> */}
       <ActionButtonsContainer>
         <ActionButton
           label={"Cancel"}
@@ -86,14 +69,9 @@ export const AddCommandModal = ({ isOpen, closeModal, saveCommand }: Props) => {
           clickHandler={closeModal}
         />
         <ActionButton
-          label={"Clear"}
-          buttonType={"warning"}
-          clickHandler={clearCommand}
-        />
-        <ActionButton
           label={"Save"}
           buttonType={"primary"}
-          clickHandler={() => saveCommand(newCommand)}
+          clickHandler={() => updateCommand(updatedCommand)}
         />
       </ActionButtonsContainer>
     </ReactModal>
