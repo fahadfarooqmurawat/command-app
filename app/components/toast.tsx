@@ -30,8 +30,8 @@ export const Toast = ({
 const Container = styled.div`
   position: fixed;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
+  background-color: var(--primary-background);
+  color: var(--secondary-text);
   padding: 10px;
   border-radius: 5px;
 `;

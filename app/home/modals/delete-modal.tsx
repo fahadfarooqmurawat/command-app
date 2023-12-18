@@ -1,24 +1,31 @@
-import { useEffect } from "react";
+"use client";
+
+import { ActionButton } from "@/app/components/action-button";
+import { removeCommand } from "@/app/lib/actions/remove-command";
+import { appStore } from "@/app/stores/app.store";
+import { useCallback, useEffect } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { ActionButton } from "../../buttons/action-button/action-button";
 
-type Props = {
-  commandId: number;
-  isOpen: boolean;
-  closeModal: () => void;
-  deleteCommand: (commandId: number) => void;
-};
+export const DeleteModal = () => {
+  const [isOpen, selectedCommand] = appStore((state) => [
+    state.deleteModal,
+    state.selectedCommand,
+  ]);
+  const closeModal = appStore.getState().hideDeleteModal;
 
-export const DeleteCommandModal = ({
-  commandId,
-  isOpen,
-  closeModal,
-  deleteCommand,
-}: Props) => {
   const onRequestClose = () => {
     closeModal();
   };
+
+  const onDeleteClicked = useCallback(async () => {
+    try {
+      if (selectedCommand) {
+        await removeCommand({ command_id: selectedCommand.command_id });
+      }
+      closeModal();
+    } catch {}
+  }, [closeModal, selectedCommand]);
 
   useEffect(() => {
     const enterHandler = (e: KeyboardEvent) => {
@@ -26,19 +33,19 @@ export const DeleteCommandModal = ({
 
       if (e.key === "Enter") {
         e.preventDefault();
-        closeModal();
+        onDeleteClicked();
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [closeModal, isOpen]);
+  }, [isOpen, onDeleteClicked, selectedCommand]);
 
   return (
     <ReactModal
       closeTimeoutMS={100}
-      contentLabel={"Update Command Modal"}
+      contentLabel={"Delete Command Modal"}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       role={"dialog"}
@@ -53,7 +60,6 @@ export const DeleteCommandModal = ({
       }}
     >
       <Title>Are you sure?</Title>
-      {/* <VerticalSpacer space={"20px"} /> */}
       <ActionButtonsContainer>
         <ActionButton
           label={"Cancel"}
@@ -63,14 +69,17 @@ export const DeleteCommandModal = ({
         <ActionButton
           label={"Delete"}
           buttonType={"primary"}
-          clickHandler={() => deleteCommand(commandId)}
+          clickHandler={onDeleteClicked}
         />
       </ActionButtonsContainer>
     </ReactModal>
   );
 };
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  margin-bottom: 20px;
+  color: var(--secondary-text);
+`;
 
 const ActionButtonsContainer = styled.div`
   display: flex;

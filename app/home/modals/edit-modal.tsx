@@ -1,8 +1,12 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { Command } from "../../@types/command.type";
 import { appStore } from "@/app/stores/app.store";
+import { ActionButton } from "@/app/components/action-button";
+import { saveCommand } from "@/app/lib/actions/save-command";
+import { TextBox } from "@/app/components/text-box";
 
 export const EditModal = () => {
   const [isOpen, selectedCommand] = appStore((state) => [
@@ -11,9 +15,38 @@ export const EditModal = () => {
   ]);
   const closeModal = appStore.getState().hideEditModal;
 
-  const [updatedCommand, setUpdatedCommand] = useState<Command>(command);
+  const [command, setCommand] = useState("");
+  const [description, setDescription] = useState("");
 
   const commandTextBoxRef = useRef<HTMLInputElement>(null);
+
+  const onCancelClicked = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    closeModal();
+  };
+
+  const onUpdateClicked = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    try {
+      if (selectedCommand) {
+        await saveCommand({
+          command_id: selectedCommand.command_id,
+          command,
+          description,
+        });
+      }
+      closeModal();
+    } catch {}
+  };
+
+  const onAfterClose = () => {
+    setCommand("");
+    setDescription("");
+  };
 
   const onAfterOpen = () => {
     commandTextBoxRef.current?.focus();
@@ -24,25 +57,32 @@ export const EditModal = () => {
   };
 
   useEffect(() => {
+    if (isOpen && selectedCommand) {
+      setCommand(selectedCommand.command);
+      setDescription(selectedCommand.description);
+    }
+  }, [isOpen, selectedCommand]);
+  useEffect(() => {
     const enterHandler = (e: KeyboardEvent) => {
       if (!isOpen) return;
 
       if (e.key === "Enter") {
         e.preventDefault();
-        closeModal();
+        saveCommand({ command, description });
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [closeModal, isOpen]);
+  }, [isOpen, command, description]);
 
   return (
     <ReactModal
       closeTimeoutMS={100}
-      contentLabel={"Update Command Modal"}
+      contentLabel={"Edit Command Modal"}
       isOpen={isOpen}
+      onAfterClose={onAfterClose}
       onAfterOpen={onAfterOpen}
       onRequestClose={onRequestClose}
       role={"dialog"}
@@ -56,29 +96,44 @@ export const EditModal = () => {
         content: { inset: "unset" },
       }}
     >
-      <Title>Update Command</Title>
-      <CommandFormElements
-        command={updatedCommand}
-        setCommand={setUpdatedCommand}
-        ref={commandTextBoxRef}
-      />
-      <ActionButtonsContainer>
-        <ActionButton
-          label={"Cancel"}
-          buttonType={"secondary"}
-          clickHandler={closeModal}
+      <Title>Edit Command</Title>
+      <Form>
+        <TextBox
+          value={command}
+          onChange={(e) => setCommand(e.currentTarget.value)}
+          ref={commandTextBoxRef}
         />
-        <ActionButton
-          label={"Save"}
-          buttonType={"primary"}
-          clickHandler={() => updateCommand(updatedCommand)}
+        <TextBox
+          value={description}
+          onChange={(e) => setDescription(e.currentTarget.value)}
         />
-      </ActionButtonsContainer>
+        <ActionButtonsContainer>
+          <ActionButton
+            label={"Cancel"}
+            buttonType={"secondary"}
+            clickHandler={onCancelClicked}
+          />
+          <ActionButton
+            label={"Update"}
+            buttonType={"primary"}
+            clickHandler={onUpdateClicked}
+          />
+        </ActionButtonsContainer>
+      </Form>
     </ReactModal>
   );
 };
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  margin-bottom: 20px;
+  color: var(--secondary-text);
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
 const ActionButtonsContainer = styled.div`
   display: flex;

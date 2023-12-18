@@ -1,3 +1,3 @@
 import { Command } from "./command.type";
 
-export type NewCommand = Omit<Command, "id">;
+export type NewCommand = Omit<Command, "command_id">;

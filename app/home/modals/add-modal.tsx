@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { appStore } from "@/app/stores/app.store";
 import { ActionButton } from "@/app/components/action-button";
 import { saveCommand } from "@/app/lib/actions/save-command";
+import { TextBox } from "@/app/components/text-box";
 
 export const AddModal = () => {
   const isOpen = appStore((state) => state.addModal);
@@ -70,7 +71,7 @@ export const AddModal = () => {
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [isOpen]);
+  }, [isOpen, command, description]);
 
   return (
     <ReactModal
@@ -93,14 +94,12 @@ export const AddModal = () => {
     >
       <Title>Add New Command</Title>
       <Form>
-        <Input
-          type='text'
+        <TextBox
           value={command}
           onChange={(e) => setCommand(e.currentTarget.value)}
           ref={commandTextBoxRef}
         />
-        <Input
-          type='text'
+        <TextBox
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
@@ -128,6 +127,7 @@ export const AddModal = () => {
 
 const Title = styled.h2`
   margin-bottom: 20px;
+  color: var(--secondary-text);
 `;
 
 const Form = styled.form`
@@ -135,8 +135,6 @@ const Form = styled.form`
   flex-direction: column;
   gap: 20px;
 `;
-
-const Input = styled.input``;
 
 const ActionButtonsContainer = styled.div`
   display: flex;

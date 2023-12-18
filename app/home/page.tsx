@@ -1,8 +1,9 @@
 import { EditModal } from "./modals/edit-modal";
-import { getAllCommands } from "../lib/get-all-commands";
+import { getAllCommands } from "../lib/actions/get-all-commands";
 import CommandsPanel from "./commands-panel/commands-panel";
 import styles from "./home.module.css";
 import { AddModal } from "./modals/add-modal";
+import { DeleteModal } from "./modals/delete-modal";
 
 export default async function Home() {
   const commands = await getAllCommands();
@@ -59,7 +60,8 @@ export default async function Home() {
     <main className={styles.main}>
       <CommandsPanel allCommands={commands} />
       <AddModal />
-      {/* <EditModal /> */}
+      <EditModal />
+      <DeleteModal />
     </main>
   );
 }

@@ -18,7 +18,7 @@ export const ActionButton = ({ label, buttonType, clickHandler }: Props) => {
 
 const Container = styled.button<{ buttonType: ButtonType }>`
   background: none;
-  color: inherit;
+  color: var(--secondary-text);
   border: none;
   padding: 0;
   font: inherit;
@@ -34,9 +34,9 @@ const Container = styled.button<{ buttonType: ButtonType }>`
       case "secondary":
         return "lightgrey";
       case "warning":
-        return "orange";
+        return "#E9B949";
       default:
-        return "lightgreen";
+        return "#7B93DB";
     }
   }};
 
@@ -50,7 +50,8 @@ const Container = styled.button<{ buttonType: ButtonType }>`
   }
 
   &:active {
-    background-color: lime;
+    background-color: #19216c;
+    color: var(--primary-text);
   }
 
   transition: transform 0.1s;

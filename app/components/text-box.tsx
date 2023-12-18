@@ -4,17 +4,16 @@ export const TextBox = styled.input`
   border: none;
 
   height: 30px;
-  width: 400px;
   padding: 10px;
 
   border-radius: 8px;
 
   font-size: 16px;
 
-  border: 2px solid #27ab83;
-  color: #102a43;
+  border: 2px solid var(--primary-foreground);
+  color: var(--secondary-text);
 
   &:focus {
-    outline: 2px solid #27ab83;
+    outline: 2px solid var(--primary-foreground);
   }
 `;

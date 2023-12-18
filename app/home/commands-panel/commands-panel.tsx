@@ -76,10 +76,11 @@ export default function CommandsPanel({
 }
 
 const Section = styled.section`
-  background-color: #f0f4f8;
+  background-color: var(--primary-background);
   width: 90%;
   height: 90%;
   padding: 20px;
+  max-width: 1000px;
 `;
 
 const Header = styled.div`
@@ -88,4 +89,18 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
-const AddButton = styled.button``;
+const AddButton = styled.button`
+  background-color: var(--primary-foreground);
+  color: var(--primary-text);
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 20px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  transition: transform 0.1s;
+`;

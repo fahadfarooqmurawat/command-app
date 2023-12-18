@@ -1,3 +1,13 @@
+:root {
+  --primary-background: #f0f4f8;
+  --primary-foreground: #0a6c74;
+  --primary-text: #f0f4f8;
+
+  --secondary-background: #2cb1bc;
+  --secondary-foreground: #627d98;
+  --secondary-text: #102a43;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

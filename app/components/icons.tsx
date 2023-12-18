@@ -2,8 +2,8 @@ import { AiOutlineDelete, AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
 import styled, { css } from "styled-components";
 
 const IconStyle = css`
-  background-color: #F0F4F8;
-
+  background-color: var(--primary-foreground);
+  color: var(--primary-text);
   height: 30px;
   width: 30px;
 
@@ -18,7 +18,8 @@ const IconStyle = css`
   }
 
   &:active {
-    background-color: #8EEDC7;
+    background-color: var(--primary-background);
+    color: var(--primary-foreground);
   }
 
   transition: transform 0.1s;
@@ -27,7 +28,6 @@ const IconStyle = css`
 export const PlusIcon = styled(AiOutlinePlus)`
   ${IconStyle}
 `;
-
 
 export const EditIcon = styled(AiOutlineEdit)`
   ${IconStyle}
