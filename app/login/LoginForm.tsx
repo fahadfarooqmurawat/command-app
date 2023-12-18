@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-// import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import styles from "./login.module.css";
@@ -14,11 +13,9 @@ export default function LoginForm() {
   ) => {
     e.preventDefault();
 
-    // const response = await signIn("credentials", {
-    //   redirect: false,
-    // });
+    const response = await signIn("facebook");
 
-    // console.log(response);
+    console.log(response);
 
     // if (!response?.error) {
     //   router.push("/home");
