@@ -1,17 +1,7 @@
 import styled from "styled-components";
-import { Command } from "@/app/@types/command.type";
 import { ActionsBox } from "./actions-box/actions-box";
 
-export const CommandsList = ({
-  commands,
-  onElementClicked,
-}: {
-  commands: Command[];
-  onElementClicked: (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    command: string
-  ) => void;
-}) => {
+export const CommandsList = ({ commands, onElementClicked }) => {
   return (
     <List>
       {commands.map((command) => (

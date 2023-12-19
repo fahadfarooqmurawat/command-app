@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-export const Toast = ({
-  message,
-  position,
-  duration,
-  onClose,
-}: {
-  message: string;
-  position: { x: number; y: number };
-  duration: number;
-  onClose: () => void;
-}) => {
+export const Toast = ({ message, position, duration, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();

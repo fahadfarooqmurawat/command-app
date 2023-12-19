@@ -1,14 +1,6 @@
 import styled from "styled-components";
 
-import { ButtonType } from "../@types/button-type.type";
-
-type Props = {
-  label: string;
-  buttonType: ButtonType;
-  clickHandler: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-};
-
-export const ActionButton = ({ label, buttonType, clickHandler }: Props) => {
+export const ActionButton = ({ label, buttonType, clickHandler }) => {
   return (
     <Container buttonType={buttonType} onClick={clickHandler}>
       {label}
@@ -16,7 +8,7 @@ export const ActionButton = ({ label, buttonType, clickHandler }: Props) => {
   );
 };
 
-const Container = styled.button<{ buttonType: ButtonType }>`
+const Container = styled.button`
   background: none;
   color: var(--secondary-text);
   border: none;

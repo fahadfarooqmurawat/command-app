@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { appStore } from "@/app/stores/app.store";
+
 import { ActionButton } from "@/app/components/action-button";
-import { saveCommand } from "@/app/lib/actions/save-command";
 import { TextBox } from "@/app/components/text-box";
+import { saveCommand } from "@/app/lib/actions/save-command";
+import { appStore } from "@/app/stores/app.store";
 
 export const EditModal = () => {
   const [isOpen, selectedCommand] = appStore((state) => [
@@ -18,18 +19,14 @@ export const EditModal = () => {
   const [command, setCommand] = useState("");
   const [description, setDescription] = useState("");
 
-  const commandTextBoxRef = useRef<HTMLInputElement>(null);
+  const commandTextBoxRef = useRef(null);
 
-  const onCancelClicked = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onCancelClicked = (e) => {
     e.preventDefault();
     closeModal();
   };
 
-  const onUpdateClicked = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onUpdateClicked = async (e) => {
     e.preventDefault();
     try {
       if (selectedCommand) {
@@ -62,8 +59,9 @@ export const EditModal = () => {
       setDescription(selectedCommand.description);
     }
   }, [isOpen, selectedCommand]);
+
   useEffect(() => {
-    const enterHandler = (e: KeyboardEvent) => {
+    const enterHandler = (e) => {
       if (!isOpen) return;
 
       if (e.key === "Enter") {

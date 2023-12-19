@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { appStore } from "@/app/stores/app.store";
 import { ActionButton } from "@/app/components/action-button";
-import { saveCommand } from "@/app/lib/actions/save-command";
 import { TextBox } from "@/app/components/text-box";
+import { saveCommand } from "@/app/lib/actions/save-command";
+import { appStore } from "@/app/stores/app.store";
 
 export const AddModal = () => {
   const isOpen = appStore((state) => state.addModal);
@@ -15,7 +15,7 @@ export const AddModal = () => {
   const [command, setCommand] = useState("");
   const [description, setDescription] = useState("");
 
-  const commandTextBoxRef = useRef<HTMLInputElement>(null);
+  const commandTextBoxRef = useRef(null);
 
   const clearCommand = () => {
     setCommand("");
@@ -23,21 +23,15 @@ export const AddModal = () => {
     commandTextBoxRef.current?.focus();
   };
 
-  const onCancelClicked = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onCancelClicked = (e) => {
     e.preventDefault();
     closeModal();
   };
-  const onClearClicked = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onClearClicked = (e) => {
     e.preventDefault();
     clearCommand();
   };
-  const onSaveClicked = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onSaveClicked = async (e) => {
     e.preventDefault();
     try {
       await saveCommand({ command, description });
@@ -59,19 +53,20 @@ export const AddModal = () => {
   };
 
   useEffect(() => {
-    const enterHandler = (e: KeyboardEvent) => {
+    const enterHandler = async (e) => {
       if (!isOpen) return;
 
       if (e.key === "Enter") {
         e.preventDefault();
-        saveCommand({ command, description });
+        await saveCommand({ command, description });
+        closeModal();
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [isOpen, command, description]);
+  }, [isOpen, command, description, closeModal]);
 
   return (
     <ReactModal

@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   multipleStatements: true,
 });
 
-const getConnection = (): Promise<mysql.PoolConnection> => {
+const getConnection = () => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
@@ -19,7 +19,7 @@ const getConnection = (): Promise<mysql.PoolConnection> => {
   });
 };
 
-const query = async (sql: string | mysql.QueryOptions, values: any) => {
+const query = async (sql, values) => {
   const connection = await getConnection();
 
   return new Promise((resolve, reject) => {

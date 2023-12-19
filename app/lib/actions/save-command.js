@@ -1,17 +1,19 @@
 "use server";
 
+import { getServerSession } from "next-auth/next";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Command } from "@/app/@types/command.type";
 import { updateCommand } from "../db/update-command";
 import { createCommand } from "../db/create-command";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options.js";
 
-export const saveCommand = async ({
-  command_id,
-  command,
-  description,
-}: Omit<Command, "command_id"> & { command_id?: number }) => {
-  const fk_user_id = 1;
+export const saveCommand = async ({ command_id, command, description }) => {
+  const fk_user_id = (await getServerSession(authOptions))?.user?.user_id;
+
+  if (!fk_user_id) {
+    console.log("Session not active");
+    // throw new Error("Session not active");
+  }
 
   if (command_id) {
     await updateCommand({ command_id, command, description, fk_user_id });

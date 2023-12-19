@@ -1,20 +1,6 @@
 import { create } from "zustand";
-import { Command } from "../@types/command.type";
 
-type AppStoreState = {
-  addModal: boolean;
-  editModal: boolean;
-  deleteModal: boolean;
-  selectedCommand: Command | null;
-  showAddModal: () => void;
-  hideAddModal: () => void;
-  showEditModal: () => void;
-  hideEditModal: () => void;
-  showDeleteModal: () => void;
-  hideDeleteModal: () => void;
-};
-
-export const appStore = create<AppStoreState>((set) => ({
+export const appStore = create((set) => ({
   addModal: false,
   editModal: false,
   deleteModal: false,

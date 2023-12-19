@@ -8,21 +8,17 @@ import styles from "./login.module.css";
 export default function LoginForm() {
   const router = useRouter();
 
-  const primaryButtonClick = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const primaryButtonClick = async (e) => {
     e.preventDefault();
 
-    const response = await signIn("facebook");
+    await signIn("facebook");
 
-    console.log(response);
+    // console.log("RES{PONSE");
+    // console.log(response);
 
     // if (!response?.error) {
     //   router.push("/home");
     //   router.refresh();
-    // } else {
-    //   setEmailError(true);
-    //   setPasswordError(true);
     // }
   };
 
@@ -33,7 +29,7 @@ export default function LoginForm() {
         type='submit'
         onClick={primaryButtonClick}
       >
-        Login with Gmail
+        Login with Facebook
       </button>
     </form>
   );

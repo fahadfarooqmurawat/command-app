@@ -1,11 +1,11 @@
 "use client";
 
-import { ActionButton } from "@/app/components/action-button";
-import { removeCommand } from "@/app/lib/actions/remove-command";
-import { appStore } from "@/app/stores/app.store";
 import { useCallback, useEffect } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
+import { ActionButton } from "@/app/components/action-button";
+import { removeCommand } from "@/app/lib/actions/remove-command";
+import { appStore } from "@/app/stores/app.store";
 
 export const DeleteModal = () => {
   const [isOpen, selectedCommand] = appStore((state) => [
@@ -28,7 +28,7 @@ export const DeleteModal = () => {
   }, [closeModal, selectedCommand]);
 
   useEffect(() => {
-    const enterHandler = (e: KeyboardEvent) => {
+    const enterHandler = (e) => {
       if (!isOpen) return;
 
       if (e.key === "Enter") {

@@ -3,17 +3,12 @@
 import { useMemo, useState } from "react";
 
 import styled from "styled-components";
-import { Command } from "../../@types/command.type";
 import { Toast } from "@/app/components/toast";
 import { TextBox } from "@/app/components/text-box";
-import { CommandsList } from "./commands-list/commands-list";
 import { appStore } from "@/app/stores/app.store";
+import { CommandsList } from "./commands-list/commands-list";
 
-export default function CommandsPanel({
-  allCommands,
-}: {
-  allCommands: Command[];
-}) {
+export default function CommandsPanel({ allCommands }) {
   const [searchText, setSearchText] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -22,10 +17,7 @@ export default function CommandsPanel({
     appStore.setState({ addModal: true });
   };
 
-  const copyToClipboard = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    command: string
-  ) => {
+  const copyToClipboard = (e, command) => {
     navigator.clipboard.writeText(command);
     setPosition({
       x: e.clientX,
