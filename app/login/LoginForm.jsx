@@ -12,14 +12,6 @@ export default function LoginForm() {
     e.preventDefault();
 
     await signIn("facebook");
-
-    // console.log("RES{PONSE");
-    // console.log(response);
-
-    // if (!response?.error) {
-    //   router.push("/home");
-    //   router.refresh();
-    // }
   };
 
   return (

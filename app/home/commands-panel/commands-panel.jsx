@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
 import styled from "styled-components";
+
 import { Toast } from "@/app/components/toast";
 import { TextBox } from "@/app/components/text-box";
 import { appStore } from "@/app/stores/app.store";
 import { CommandsList } from "./commands-list/commands-list";
 
-export default function CommandsPanel({ allCommands }) {
+export const CommandsPanel = ({ allCommands }) => {
   const [searchText, setSearchText] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -65,12 +65,12 @@ export default function CommandsPanel({ allCommands }) {
       />
     </Section>
   );
-}
+};
 
 const Section = styled.section`
   background-color: var(--primary-background);
   width: 90%;
-  height: 90%;
+  height: calc(100% - 120px);
   padding: 20px;
   max-width: 1000px;
 `;
