@@ -67,10 +67,14 @@ export const CommandsPanel = ({ allCommands }) => {
         />
         <FancyButton onClick={addButtonClicked}>Add Command</FancyButton>
       </Header>
-      <CommandsList
-        commands={filteredCommands}
-        onElementClicked={copyToClipboard}
-      />
+      {filteredCommands.length === 0 ? (
+        <NoResults>No Results</NoResults>
+      ) : (
+        <CommandsList
+          commands={filteredCommands}
+          onElementClicked={copyToClipboard}
+        />
+      )}
     </Section>
   );
 };
@@ -89,4 +93,10 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+const NoResults = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  color: var(--secondary-text);
 `;
