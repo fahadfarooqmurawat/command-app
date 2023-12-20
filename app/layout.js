@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/options.js";
 import { Header } from "./components/header.jsx";
+import { Loader } from "./components/loader.jsx";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,6 +20,7 @@ export default async function RootLayout({ children }) {
       <body className={inter.className}>
         {session && <Header />}
         {children}
+        <Loader />
       </body>
     </html>
   );

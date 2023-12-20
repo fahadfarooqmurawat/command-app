@@ -13,20 +13,25 @@ export const DeleteModal = () => {
     state.deleteModal,
     state.selectedCommand,
   ]);
-  const closeModal = appStore.getState().hideDeleteModal;
+
+  const {
+    hideDeleteModal: closeModal,
+    startProcessing,
+    stopProcessing,
+  } = appStore.getState();
 
   const onRequestClose = () => {
     closeModal();
   };
 
   const onDeleteClicked = useCallback(async () => {
-    try {
-      if (selectedCommand) {
-        await removeCommand({ command_id: selectedCommand.command_id });
-      }
+    if (selectedCommand) {
+      startProcessing();
+      await removeCommand({ command_id: selectedCommand.command_id });
+      stopProcessing();
       closeModal();
-    } catch {}
-  }, [closeModal, selectedCommand]);
+    }
+  }, [closeModal, selectedCommand, startProcessing, stopProcessing]);
 
   useEffect(() => {
     const enterHandler = (e) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 
@@ -11,7 +11,11 @@ import { appStore } from "@/app/stores/app.store";
 
 export const AddModal = () => {
   const isOpen = appStore((state) => state.addModal);
-  const closeModal = appStore.getState().hideAddModal;
+  const {
+    hideAddModal: closeModal,
+    startProcessing,
+    stopProcessing,
+  } = appStore.getState();
 
   const [command, setCommand] = useState("");
   const [description, setDescription] = useState("");
@@ -28,15 +32,23 @@ export const AddModal = () => {
     e.preventDefault();
     closeModal();
   };
+
   const onClearClicked = (e) => {
     e.preventDefault();
     clearCommand();
   };
+
+  const handleSaveCommand = useCallback(async () => {
+    startProcessing();
+    await saveCommand({ command, description });
+    stopProcessing();
+    closeModal();
+  }, [closeModal, command, description, startProcessing, stopProcessing]);
+
   const onSaveClicked = async (e) => {
     e.preventDefault();
     try {
-      await saveCommand({ command, description });
-      closeModal();
+      await handleSaveCommand();
     } catch {}
   };
 
@@ -59,15 +71,14 @@ export const AddModal = () => {
 
       if (e.key === "Enter") {
         e.preventDefault();
-        await saveCommand({ command, description });
-        closeModal();
+        await handleSaveCommand();
       }
     };
 
     document.addEventListener("keydown", enterHandler);
 
     return () => document.removeEventListener("keydown", enterHandler);
-  }, [isOpen, command, description, closeModal]);
+  }, [isOpen, command, description, closeModal, handleSaveCommand]);
 
   return (
     <ReactModal
