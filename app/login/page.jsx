@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
+import { authOptions } from "../api/auth/[...nextauth]/options.js";
+
 import LoginForm from "./LoginForm";
 import styles from "./login.module.css";
-import { authOptions } from "../api/auth/[...nextauth]/options.js";
 
 export default async function Login() {
   const session = await getServerSession(authOptions);

@@ -1,5 +1,6 @@
-import { EditModal } from "./modals/edit-modal";
 import { getAllCommands } from "../lib/actions/get-all-commands";
+
+import { EditModal } from "./modals/edit-modal";
 import { CommandsPanel } from "./commands-panel/commands-panel";
 import { AddModal } from "./modals/add-modal";
 import { DeleteModal } from "./modals/delete-modal";

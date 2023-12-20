@@ -3,8 +3,10 @@
 import { getServerSession } from "next-auth/next";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { deleteCommand } from "../db/delete-command";
+
 import { authOptions } from "@/app/api/auth/[...nextauth]/options.js";
+
+import { deleteCommand } from "../db/delete-command";
 
 export const removeCommand = async ({ command_id }) => {
   const fk_user_id = (await getServerSession(authOptions))?.user?.user_id;

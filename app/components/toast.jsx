@@ -19,9 +19,11 @@ export const Toast = ({ message, position, duration, onClose }) => {
 
 const Container = styled.div`
   position: fixed;
+  padding: 10px;
+
   transform: translateX(-50%);
+
   background-color: var(--primary-background);
   color: var(--secondary-text);
-  padding: 10px;
   border-radius: 5px;
 `;

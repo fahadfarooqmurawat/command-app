@@ -9,18 +9,14 @@ export const ActionButton = ({ label, buttonType, clickHandler }) => {
 };
 
 const Container = styled.button`
-  background: none;
-  color: var(--secondary-text);
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
+  margin: 10px;
+  padding: 10px 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  background: none;
   background-color: ${(props) => {
     switch (props.buttonType) {
       case "secondary":
@@ -31,11 +27,16 @@ const Container = styled.button`
         return "#7B93DB";
     }
   }};
-
-  margin: 10px;
-  padding: 10px 14px;
-
+  color: var(--secondary-text);
+  border: none;
+  outline: inherit;
   border-radius: 10px;
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition: transform 0.1s;
 
   &:hover {
     transform: scale(1.1);
@@ -45,6 +46,4 @@ const Container = styled.button`
     background-color: #19216c;
     color: var(--primary-text);
   }
-
-  transition: transform 0.1s;
 `;

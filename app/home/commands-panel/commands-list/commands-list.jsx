@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { ActionsBox } from "./actions-box/actions-box";
 
 export const CommandsList = ({ commands, onElementClicked }) => {
@@ -21,34 +22,39 @@ export const CommandsList = ({ commands, onElementClicked }) => {
 };
 
 const List = styled.div`
+  max-height: 94%;
+  width: 100%;
   margin-top: 20px;
   padding-right: 10px;
-  width: 100%;
-  height: 94%;
+
   text-align: left;
+
   overflow-y: scroll;
 `;
 
 const Element = styled.div`
-  background-color: var(--secondary-background);
-  color: var(--secondary-text);
   margin: 10px 0;
   padding: 10px;
-  border-radius: 4px;
+
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+
+  background-color: var(--secondary-background);
+  color: var(--secondary-text);
+  border-radius: 4px;
+
   cursor: pointer;
 `;
 
 const CommandTitle = styled.span`
   flex: 1;
+  user-select: none;
 `;
 
 const CommandDescription = styled.span`
   flex: 2;
+  user-select: none;
 `;
 
-const ActionsBoxContainer = styled.span`
-  flex: 1;
-`;
+const ActionsBoxContainer = styled.span``;

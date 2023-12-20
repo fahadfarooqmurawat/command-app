@@ -1,19 +1,18 @@
 import styled from "styled-components";
 
 export const TextBox = styled.input`
-  border: none;
-
   height: 30px;
   padding: 10px;
 
+  color: var(--secondary-text);
+  border: none;
+  outline: none;
+  outline: 2px solid var(--primary-foreground);
   border-radius: 8px;
 
   font-size: 16px;
 
-  border: 2px solid var(--primary-foreground);
-  color: var(--secondary-text);
-
   &:focus {
-    outline: 2px solid var(--primary-foreground);
+    outline: 3px solid var(--primary-foreground);
   }
 `;

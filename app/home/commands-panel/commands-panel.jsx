@@ -1,17 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 import { Toast } from "@/app/components/toast";
 import { TextBox } from "@/app/components/text-box";
 import { appStore } from "@/app/stores/app.store";
+import { FancyButton } from "@/app/components/fancy-buton.jsx";
+
 import { CommandsList } from "./commands-list/commands-list";
 
 export const CommandsPanel = ({ allCommands }) => {
   const [searchText, setSearchText] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const searchBoxRef = useRef(null);
 
   const addButtonClicked = () => {
     appStore.setState({ addModal: true });
@@ -41,13 +44,17 @@ export const CommandsPanel = ({ allCommands }) => {
     );
   }, [searchText, allCommands]);
 
+  useEffect(() => {
+    searchBoxRef?.current?.focus?.();
+  }, []);
+
   return (
     <Section>
       {showToast && (
         <Toast
           message='Copied!'
           position={position}
-          duration={3000}
+          duration={2000}
           onClose={() => setShowToast(false)}
         />
       )}
@@ -56,8 +63,9 @@ export const CommandsPanel = ({ allCommands }) => {
           placeholder='Search'
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          ref={searchBoxRef}
         />
-        <AddButton onClick={addButtonClicked}>Add Command</AddButton>
+        <FancyButton onClick={addButtonClicked}>Add Command</FancyButton>
       </Header>
       <CommandsList
         commands={filteredCommands}
@@ -68,31 +76,17 @@ export const CommandsPanel = ({ allCommands }) => {
 };
 
 const Section = styled.section`
-  background-color: var(--primary-background);
-  width: 90%;
   height: calc(100% - 120px);
-  padding: 20px;
+  width: 90%;
   max-width: 1000px;
+  padding: 20px;
+  padding-top: 40px;
+
+  background-color: var(--primary-background);
 `;
 
 const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
-
-const AddButton = styled.button`
-  background-color: var(--primary-foreground);
-  color: var(--primary-text);
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 500;
-  margin-right: 20px;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  transition: transform 0.1s;
 `;

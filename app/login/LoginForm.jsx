@@ -11,7 +11,7 @@ export default function LoginForm() {
   const primaryButtonClick = async (e) => {
     e.preventDefault();
 
-    await signIn("facebook");
+    await signIn("google");
   };
 
   return (
@@ -21,7 +21,7 @@ export default function LoginForm() {
         type='submit'
         onClick={primaryButtonClick}
       >
-        Login with Facebook
+        Login with Google
       </button>
     </form>
   );

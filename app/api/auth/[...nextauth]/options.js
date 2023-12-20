@@ -1,12 +1,13 @@
+import GoogleProvider from "next-auth/providers/google";
+
 import { createUser } from "@/app/lib/db/create-user.js";
 import { readUser } from "@/app/lib/db/read-user.js";
-import FacebookProvider from "next-auth/providers/facebook";
 
 export const authOptions = {
   providers: [
-    FacebookProvider({
-      clientId: process.env.FB_CLIENT_ID,
-      clientSecret: process.env.FB_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {
