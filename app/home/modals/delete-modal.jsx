@@ -26,10 +26,16 @@ export const DeleteModal = () => {
 
   const onDeleteClicked = useCallback(async () => {
     if (selectedCommand) {
-      startProcessing();
-      await removeCommand({ command_id: selectedCommand.command_id });
-      stopProcessing();
-      closeModal();
+      try {
+        startProcessing();
+        await removeCommand({ command_id: selectedCommand.command_id });
+        closeModal();
+      } catch (error) {
+        console.log("deleteModal");
+        console.log(error);
+      } finally {
+        stopProcessing();
+      }
     }
   }, [closeModal, selectedCommand, startProcessing, stopProcessing]);
 

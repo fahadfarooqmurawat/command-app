@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ActionButton = ({ label, buttonType, clickHandler }) => {
   return (
-    <Container buttonType={buttonType} onClick={clickHandler}>
+    <Container $buttonType={buttonType} onClick={clickHandler}>
       {label}
     </Container>
   );
@@ -18,7 +18,7 @@ const Container = styled.button`
 
   background: none;
   background-color: ${(props) => {
-    switch (props.buttonType) {
+    switch (props.$buttonType) {
       case "secondary":
         return "lightgrey";
       case "warning":

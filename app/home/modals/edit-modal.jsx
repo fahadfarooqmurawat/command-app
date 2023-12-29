@@ -33,14 +33,20 @@ export const EditModal = () => {
 
   const handleSaveCommand = useCallback(async () => {
     if (selectedCommand) {
-      startProcessing();
-      await saveCommand({
-        command_id: selectedCommand.command_id,
-        command,
-        description,
-      });
-      stopProcessing();
-      closeModal();
+      try {
+        startProcessing();
+        await saveCommand({
+          command_id: selectedCommand.command_id,
+          command,
+          description,
+        });
+        closeModal();
+      } catch (error) {
+        console.log("editModal");
+        console.log(error);
+      } finally {
+        stopProcessing();
+      }
     }
   }, [
     closeModal,

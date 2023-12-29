@@ -39,10 +39,16 @@ export const AddModal = () => {
   };
 
   const handleSaveCommand = useCallback(async () => {
-    startProcessing();
-    await saveCommand({ command, description });
-    stopProcessing();
-    closeModal();
+    try {
+      startProcessing();
+      await saveCommand({ command, description });
+      closeModal();
+    } catch (error) {
+      console.log("addModal");
+      console.log(error);
+    } finally {
+      stopProcessing();
+    }
   }, [closeModal, command, description, startProcessing, stopProcessing]);
 
   const onSaveClicked = async (e) => {
