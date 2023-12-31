@@ -1,23 +1,12 @@
 "use server";
 
-import { getServerSession } from "next-auth/next";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
-import { authOptions } from "@/app/api/auth/[...nextauth]/options.js";
-
-import { deleteCommand } from "../db/delete-command";
+import { revalidatePath } from "next/cache.js";
+import { makeApiRouteCall } from "../make-api-route-call.js";
 
 export const removeCommand = async ({ command_id }) => {
-  const fk_user_id = (await getServerSession(authOptions))?.user?.user_id;
+  await makeApiRouteCall("DELETE", {
+    command_id
+  });
 
-  if (!fk_user_id) {
-    console.log("Session not active");
-    // throw new Error("Session not active");
-  }
-
-  await deleteCommand({ command_id, fk_user_id });
-
-  revalidatePath("/home");
-  redirect("/home");
+  revalidatePath("http://localhost:3000/api/commands");
 };
