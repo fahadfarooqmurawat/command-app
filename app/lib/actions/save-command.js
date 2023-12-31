@@ -1,28 +1,18 @@
 "use server";
 
-import { getServerSession } from "next-auth/next";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
-import { authOptions } from "@/app/api/auth/[...nextauth]/options.js";
-
-import { updateCommand } from "../db/update-command";
-import { createCommand } from "../db/create-command";
+import { revalidatePath } from "next/cache.js";
+import { makeApiRouteCall } from "../make-api-route-call.js";
 
 export const saveCommand = async ({ command_id, command, description }) => {
-  const fk_user_id = (await getServerSession(authOptions))?.user?.user_id;
-
-  if (!fk_user_id) {
-    console.log("Session not active");
-    // throw new Error("Session not active");
-  }
-
   if (command_id) {
-    await updateCommand({ command_id, command, description, fk_user_id });
+    await makeApiRouteCall("PUT", {
+      command_id, command, description,
+    });
   } else {
-    await createCommand({ command, description, fk_user_id });
+    await makeApiRouteCall("POST", {
+      command, description,
+    });
   }
 
-  revalidatePath("/home");
-  redirect("/home");
+  revalidatePath("http://localhost:3000/api/commands");
 };
