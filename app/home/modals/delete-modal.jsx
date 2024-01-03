@@ -5,10 +5,10 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 
 import { ActionButton } from "@/app/components/action-button";
-import { removeCommand } from "@/app/lib/actions/remove-command";
 import { appStore } from "@/app/stores/app.store";
+import { makeApiRouteCallFromClient } from "@/app/lib/make-api-route-call-from-client.js";
 
-export const DeleteModal = () => {
+export const DeleteModal = ({ revalidate }) => {
   const [isOpen, selectedCommand] = appStore((state) => [
     state.deleteModal,
     state.selectedCommand,
@@ -28,7 +28,9 @@ export const DeleteModal = () => {
     if (selectedCommand) {
       try {
         startProcessing();
-        await removeCommand({ command_id: selectedCommand.command_id });
+        await makeApiRouteCallFromClient("DELETE", {
+          command_id: selectedCommand.command_id,
+        });
         closeModal();
       } catch (error) {
         console.log("deleteModal");

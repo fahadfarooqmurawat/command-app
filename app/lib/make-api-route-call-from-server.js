@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export const makeApiRouteCall = async (method = "GET", body) => {
+export const makeApiRouteCallFromServer = async (method = "GET", body) => {
   const response = await fetch(`${process.env.API_BASE_URL}/api/commands`, {
     method,
     headers: {

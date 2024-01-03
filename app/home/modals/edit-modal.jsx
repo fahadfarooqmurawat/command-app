@@ -6,10 +6,10 @@ import styled from "styled-components";
 
 import { ActionButton } from "@/app/components/action-button";
 import { TextBox } from "@/app/components/text-box";
-import { saveCommand } from "@/app/lib/actions/save-command";
 import { appStore } from "@/app/stores/app.store";
+import { makeApiRouteCallFromClient } from "@/app/lib/make-api-route-call-from-client.js";
 
-export const EditModal = () => {
+export const EditModal = ({ revalidate }) => {
   const [isOpen, selectedCommand] = appStore((state) => [
     state.editModal,
     state.selectedCommand,
@@ -35,11 +35,12 @@ export const EditModal = () => {
     if (selectedCommand) {
       try {
         startProcessing();
-        await saveCommand({
+        await makeApiRouteCallFromClient("PUT", {
           command_id: selectedCommand.command_id,
           command,
           description,
         });
+        await revalidate();
         closeModal();
       } catch (error) {
         console.log("editModal");
@@ -52,6 +53,7 @@ export const EditModal = () => {
     closeModal,
     command,
     description,
+    revalidate,
     selectedCommand,
     startProcessing,
     stopProcessing,

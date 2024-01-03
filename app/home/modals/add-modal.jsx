@@ -5,11 +5,11 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 
 import { ActionButton } from "@/app/components/action-button";
-import { TextBox } from "@/app/components/text-box";
-import { saveCommand } from "@/app/lib/actions/save-command";
+import { TextBox } from "@/app/components/text-box";;
 import { appStore } from "@/app/stores/app.store";
+import { makeApiRouteCallFromClient } from "@/app/lib/make-api-route-call-from-client.js";
 
-export const AddModal = () => {
+export const AddModal = ({ revalidate }) => {
   const isOpen = appStore((state) => state.addModal);
   const {
     hideAddModal: closeModal,
@@ -41,7 +41,11 @@ export const AddModal = () => {
   const handleSaveCommand = useCallback(async () => {
     try {
       startProcessing();
-      await saveCommand({ command, description });
+      await makeApiRouteCallFromClient("POST", {
+        command,
+        description,
+      });
+      await revalidate();
       closeModal();
     } catch (error) {
       console.log("addModal");
@@ -49,7 +53,14 @@ export const AddModal = () => {
     } finally {
       stopProcessing();
     }
-  }, [closeModal, command, description, startProcessing, stopProcessing]);
+  }, [
+    closeModal,
+    command,
+    description,
+    revalidate,
+    startProcessing,
+    stopProcessing,
+  ]);
 
   const onSaveClicked = async (e) => {
     e.preventDefault();
