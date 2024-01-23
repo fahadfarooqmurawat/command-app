@@ -7,21 +7,19 @@ import { DeleteModal } from "./modals/delete-modal";
 import styles from "./home.module.css";
 
 const revalidate = async () => {
-  "use server"
+  "use server";
   revalidatePath("http://localhost:3000/api/commands");
 };
 
 export default async function Home() {
   const commands = await makeApiRouteCallFromServer();
 
-
-
   return (
     <main className={styles.main}>
       <CommandsPanel allCommands={commands} />
-      <AddModal  revalidate={revalidate} />
-      <EditModal  revalidate={revalidate} />
-      <DeleteModal revalidate={revalidate}  />
+      <AddModal revalidate={revalidate} />
+      <EditModal revalidate={revalidate} />
+      <DeleteModal revalidate={revalidate} />
     </main>
   );
 }
