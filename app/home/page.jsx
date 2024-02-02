@@ -6,9 +6,11 @@ import { EditModal } from "./modals/edit-modal";
 import { DeleteModal } from "./modals/delete-modal";
 import styles from "./home.module.css";
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 const revalidate = async () => {
   "use server";
-  revalidatePath("http://localhost:3000/api/commands");
+  revalidatePath(`${API_BASE_URL}/api/commands`);
 };
 
 export default async function Home() {
